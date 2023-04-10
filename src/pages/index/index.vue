@@ -1,27 +1,19 @@
 <template>
   <view class="content">
-    <image class="logo" src="/static/logo.png" />
-    <view class="text-area">
-      <text color-red text-50>{{ title }}</text>
-    </view>
-    <view @click="handleChange">改变元素</view>
+    <view v-for="i in bannerList"> {{ i }} </view>
+    <view v-for="i in cardList"> {{ i }} </view>
   </view>
 </template>
 
 <script setup lang="ts">
-let title = $ref('Hello')
+import {getCardList, getBannerList} from "@/api/home"
+let bannerList = $ref<string[]>([])
+let cardList = $ref<any[]>([])
+
 onLoad(()=>{
-  title = "123"
+  bannerList = getBannerList().data[0].imgUrl.split(",").map(i=>i.replace("\n",""))
+  cardList = getCardList().data
 })
-
-let {isLogin} = $(useUser())
-console.log('isLogin---1', isLogin)
-
-const  handleChange = () =>{
-  isLogin = true
-  console.log('isLogin---2', isLogin)
-}
-
 </script>
 
 <style>
