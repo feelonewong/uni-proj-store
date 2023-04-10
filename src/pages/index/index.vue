@@ -1,18 +1,30 @@
 <template>
-  <view class="content">
-    <view v-for="i in bannerList"> {{ i }} </view>
-    <view v-for="i in cardList"> {{ i }} </view>
-  </view>
+    <view relative w-full>
+        <NavigationBar />
+        <view style="padding: 0 35rpx 0 35rpx" box-border overflow-hidden>
+          <view>
+            <IndexSwiper :banner-list="bannerList" />
+            <Category />
+          </view>
+        </view>
+      </view>
 </template>
 
 <script setup lang="ts">
 import {getCardList, getBannerList} from "@/api/home"
+import NavigationBar from "./components/NavigationBar.vue"
+import Category from './components/Category.vue'
+components:{
+  NavigationBar
+}
 let bannerList = $ref<string[]>([])
 let cardList = $ref<any[]>([])
 
 onLoad(()=>{
   bannerList = getBannerList().data[0].imgUrl.split(",").map(i=>i.replace("\n",""))
   cardList = getCardList().data
+
+  
 })
 </script>
 
